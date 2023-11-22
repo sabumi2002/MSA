@@ -1,0 +1,15 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: user-service
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}} # 이렇게 안할경우 port:0을 했을때 인스턴스가 하나밖에 안보임
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka # 유레카 서버 접속 주소
+

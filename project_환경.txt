@@ -1,0 +1,6 @@
+jdk: amazon-corretto-17
+java: 17
+type: maven
+packaging: jar
+
+

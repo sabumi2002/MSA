@@ -1,0 +1,7 @@
+maven
+~/user-service>mvn spring-boot:run -Dspring-boot.run.jvmArguments='-Dserver.port=9003'
+
+
+
+gradle
+~/user-service>gradlew bootrun
