@@ -2,11 +2,11 @@
 --------------------------
 apigateway-service
 - gradle
-- spring cloud gateway 사용
+- spring cloud gateway
 
 discoveryservice
 - gradle
-- spring cloud eureka 사용
+- spring cloud eureka
 
 first-service
 - maven
