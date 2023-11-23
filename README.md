@@ -1,18 +1,18 @@
 ### samp_apiGateway_eureka ###
 --------------------------
-##### apigateway-service
+#### apigateway-service
 - gradle
 - spring cloud gateway
 
-##### discoveryservice
+#### discoveryservice
 - gradle
 - spring cloud eureka
 
-##### first-service
+#### first-service
 - maven
 - eureka client
 
-##### second-service
+#### second-service
 - maven
 - eureka client
 
