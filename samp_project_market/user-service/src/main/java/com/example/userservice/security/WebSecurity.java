@@ -34,6 +34,7 @@ public class WebSecurity {
         this.env = env;
     }
 
+    // IP 접근제한
     private AuthorizationDecision hasIpAddress(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
         return new AuthorizationDecision(IP_ADDRESS_MATCHER.matches(object.getRequest()));
     }
