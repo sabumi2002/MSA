@@ -1,5 +1,6 @@
 package com.example.userservice.security;
 
+import com.example.userservice.service.UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +31,11 @@ public class WebSecurity {
             "/users/**"
     };
     private Environment env;
-    public WebSecurity(Environment env) {
+    private UserService userService;
+
+    public WebSecurity(Environment env, UserService userService) {
         this.env = env;
+        this.userService = userService;
     }
 
     // IP 접근제한
@@ -39,10 +43,10 @@ public class WebSecurity {
         return new AuthorizationDecision(IP_ADDRESS_MATCHER.matches(object.getRequest()));
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
     @Bean
     AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -67,8 +71,8 @@ public class WebSecurity {
 
     private AuthenticationFilter getAuthenticationFilter(HttpSecurity http) throws Exception {
         AuthenticationManager authenticationManager = authenticationManager(http.getSharedObject(AuthenticationConfiguration.class));
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
-        authenticationFilter.setAuthenticationManager(authenticationManager);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager, userService, env);
+//        authenticationFilter.setAuthenticationManager(authenticationManager);
         return authenticationFilter;
     }
 
