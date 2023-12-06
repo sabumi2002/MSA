@@ -9,9 +9,22 @@ eureka:
       defaultZone: http://localhost:8761/eureka
 
 spring:
+  config:
+    import: "optional:configserver:http://localhost:8888/"  # configserver에 대한 host 정보를 설정합니다.
   application:
     name: apigateway-service
   cloud:
+    config:
+      name: ecommerce                 # 이 값으로 config server에 조회할 application-name으로 사용합니다.
+      fail-fast: true                 # config-server에 연결할 수 없는 경우 애플리케이션 구동에 실패합니다., retry 옵션을 사용하고자 하는 경우에 반드시 선언되어야 합니다.
+      retry:                          # config server에 연결 실패하거나 응답 에러가 발생하는 경우 재시도하는 정책입니다.
+        initial-interval: 1000        # config server api 요청 실패 후 다음 retry 요청을 위한 internal 입니다. 단위는 ms(밀리세컨드)입니다.
+        max-attempts: 5               # 최대로 retry하는 횟수 입니다.
+        multiplier: 1.1               # 한번 retry 할 때마다 interval 시간의 지연율을 곱합니다
+      request-connect-timeout: 2000   # config server 요청 시 사용하는 connection timeout 값입니다., 기본값은 10초 입니다.
+      request-read-timeout: 10000     # config server 요청 시 사용하는 read timeout 값입니다., 기본값은 185초 입니다.
+    profiles:
+      active: dev
     gateway:
       default-filters:
         - name: GlobalFilter
@@ -24,6 +37,7 @@ spring:
 #          uri: lb://USER-SERVICE
 #          predicates:
 #            - Path=/user-service/**
+        # 로그인
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -32,6 +46,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie  # POST로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
+        # 회원가입
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -40,11 +55,22 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie  # POST로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
+        # 그 외 getMethod
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
             - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie  # GET으로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
+            - AuthorizationHeaderFilter
+        # actuator
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET, POST
           filters:
             - RemoveRequestHeader=Cookie  # GET으로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
@@ -60,3 +86,10 @@ spring:
 #            - AddRequestHeader=first-request, first-request-header2
 #            - AddResponseHeader=first-response, first-response-header2
 #            - CustomFilter
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpexchanges
+

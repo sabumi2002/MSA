@@ -17,6 +17,20 @@ spring:
       settings:
         web-allow-others: true
       path: /h2-console
+  config:
+    import: "optional:configserver:http://localhost:8888/"  # configserver에 대한 host 정보를 설정합니다.
+  cloud:
+    config:
+      name: ecommerce                 # 이 값으로 config server에 조회할 application-name으로 사용합니다.
+      fail-fast: true                 # config-server에 연결할 수 없는 경우 애플리케이션 구동에 실패합니다., retry 옵션을 사용하고자 하는 경우에 반드시 선언되어야 합니다.
+      retry:                          # config server에 연결 실패하거나 응답 에러가 발생하는 경우 재시도하는 정책입니다.
+        initial-interval: 1000        # config server api 요청 실패 후 다음 retry 요청을 위한 internal 입니다. 단위는 ms(밀리세컨드)입니다.
+        max-attempts: 5               # 최대로 retry하는 횟수 입니다.
+        multiplier: 1.1               # 한번 retry 할 때마다 interval 시간의 지연율을 곱합니다
+      request-connect-timeout: 2000   # config server 요청 시 사용하는 connection timeout 값입니다., 기본값은 10초 입니다.
+      request-read-timeout: 10000     # config server 요청 시 사용하는 read timeout 값입니다., 기본값은 185초 입니다.
+  profiles:
+    active: dev
 
 eureka:
   instance:
@@ -35,7 +49,13 @@ logging:
   level:
     com.example.userservice: DEBUG
 
-token:
-  expiration_time: 86400000 # 60*60*24*1000 = 1일
-  secret: '51564321231485646545645642313213123253252312321321123432423456456456456123156456123451321854231562486421841876518564501234567890123456789012345678901234567890123456789'
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
 
+
+#token:
+#  expiration_time: 86400000 # 60*60*24*1000 = 1일
+#  secret: '51564321231485646545645642313213123253252312321321123432423456456456456123156456123451321854231562486421841876518564501234567890123456789012345678901234567890123456789'

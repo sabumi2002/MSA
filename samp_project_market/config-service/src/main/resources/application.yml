@@ -1,0 +1,15 @@
+
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+#          uri: file:\\\D:\sabeom\3.study\git-local-repo  # local git?? ?? ????
+          uri: https://github.com/sabumi2002/Spring-Cloud-Config  # remote git?? ?? ????
+#          username: [your username]
+#          password: [your password]
