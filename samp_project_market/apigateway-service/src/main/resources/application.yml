@@ -13,9 +13,15 @@ spring:
     import: "optional:configserver:http://localhost:8888/"  # configserver에 대한 host 정보를 설정합니다.
   application:
     name: apigateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
-      name: ecommerce                 # 이 값으로 config server에 조회할 application-name으로 사용합니다.
+#      uri: http://localhost:8888/
+      name: config-service                 # 이 값으로 config server에 조회할 application-name으로 사용합니다.
       fail-fast: true                 # config-server에 연결할 수 없는 경우 애플리케이션 구동에 실패합니다., retry 옵션을 사용하고자 하는 경우에 반드시 선언되어야 합니다.
       retry:                          # config server에 연결 실패하거나 응답 에러가 발생하는 경우 재시도하는 정책입니다.
         initial-interval: 1000        # config server api 요청 실패 후 다음 retry 요청을 위한 internal 입니다. 단위는 ms(밀리세컨드)입니다.
@@ -23,8 +29,8 @@ spring:
         multiplier: 1.1               # 한번 retry 할 때마다 interval 시간의 지연율을 곱합니다
       request-connect-timeout: 2000   # config server 요청 시 사용하는 connection timeout 값입니다., 기본값은 10초 입니다.
       request-read-timeout: 10000     # config server 요청 시 사용하는 read timeout 값입니다., 기본값은 185초 입니다.
-    profiles:
-      active: dev
+#    profiles:
+#      active: dev
     gateway:
       default-filters:
         - name: GlobalFilter
@@ -91,5 +97,5 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httpexchanges
+        include: refresh, health, beans, httpexchanges, busrefresh
 
