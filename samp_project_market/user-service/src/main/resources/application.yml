@@ -9,9 +9,9 @@ spring:
     port: 5672
     username: guest
     password: guest
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#    username: sa
   jpa:
     hibernate:
       ddl-auto: create-drop # ??? ? ?? ?? ?? ??? ?? ? ???? ?? ????.
@@ -27,7 +27,7 @@ spring:
   cloud:
     config:
 #      uri: http://localhost:8888
-      name: config-service           # 이 값으로 config server에 조회할 application-name으로 사용합니다.
+      name: user-service           # 이 값으로 config server에 조회할 application-name으로 사용합니다.
       fail-fast: true                 # config-server에 연결할 수 없는 경우 애플리케이션 구동에 실패합니다., retry 옵션을 사용하고자 하는 경우에 반드시 선언되어야 합니다.
       retry:                          # config server에 연결 실패하거나 응답 에러가 발생하는 경우 재시도하는 정책입니다.
         initial-interval: 1000        # config server api 요청 실패 후 다음 retry 요청을 위한 internal 입니다. 단위는 ms(밀리세컨드)입니다.
@@ -53,7 +53,7 @@ greeting:
 
 logging:
   level:
-    com.example.userservice: DEBUG
+    com.example.userservice.client: DEBUG
 
 management:
   endpoints:

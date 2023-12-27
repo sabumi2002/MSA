@@ -28,6 +28,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         this.env = env;
         byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("token.secret"));
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        log.info("token.secret: {}", env.getProperty("token.secret"));
     }
 
     public static class Config {
@@ -65,6 +66,8 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         // subject값이 정상적인지 아닌지
         String subject = null;
         try {
+            log.info("token.secret: {}", env.getProperty("token.secret"));
+            log.info("jwt: {}", jwt);
             subject = Jwts.parserBuilder().setSigningKey(key).build()
                     .parseClaimsJws(jwt).getBody()
                     .getSubject();

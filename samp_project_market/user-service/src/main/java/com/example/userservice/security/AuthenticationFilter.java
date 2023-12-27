@@ -45,6 +45,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         this.env = env;
         byte[] keyBytes = Decoders.BASE64.decode(env.getProperty("token.secret"));
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        log.info("token.secret: {}", env.getProperty("token.secret"));
     }
 
     @Override
@@ -88,7 +89,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() +
                         Long.parseLong(env.getProperty("token.expiration_time")))) // 토큰 유효시간 설정
 //                .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))    // 암호화
-                .signWith(key, SignatureAlgorithm.HS512)    // 암호화
+                .signWith(key, SignatureAlgorithm.HS256)    // 암호화
                 .compact();
 
         // token정보 주입
