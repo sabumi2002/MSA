@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
 
     OrderServiceClient orderServiceClient;
 
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder passwordEncoder,
@@ -98,12 +99,16 @@ public class UserServiceImpl implements UserService {
 //        List<ResponseOrder> ordersList = orderListResponse.getBody();
 
         /* using a feign client */
-        List<ResponseOrder> ordersList = null;
-        try {
-            ordersList = orderServiceClient.getOrders(userId);
-        } catch (FeignException ex) {
-            log.error(ex.getMessage());
-        }
+        /* Feign exception handling */
+//        List<ResponseOrder> ordersList = null;
+//        try {
+//            ordersList = orderServiceClient.getOrders(userId);
+//        } catch (FeignException ex) {
+//            log.error(ex.getMessage());
+//        }
+
+        /* ErrorDecoder */
+        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
 
         userDto.setOrders(ordersList);
 
