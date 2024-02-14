@@ -1,0 +1,17 @@
+spring:
+    datasource:
+      driver-class-name: org.h2.Driver
+      url: jdbc:h2:mem:testdb
+      username: sa
+      password: '{cipher}AQC/ncO/Av+JBarMolA0T479fZLP3t+CImD5uVeL2wjng6SVwQ4tW3bhZuryOsSXHd0j9ofOeyw8izNfNJlQYHYe2P2AJnRj9pIA7bzniFREMwYM7z7qeQzpl3Etnb1GJtJIbn55ScHkhLFMkRH0/3j3JJs/Hz9NiXMuHpcF9bvpwZ4pF3NETLepQ3IVHXH1u6WIrVQWK+LNHiwTrtVqm3v0mZnF5imKLYs0hWPy86BORE6lL95AjN/UEE7oVWotX/NwNQPnAbWMk0QcGPmh0o/CrF+a1kUAe5y5DBNFQC4cW5FZKozjIQSVOxvT769N9B5HidemNP6QSbxOY6F8RKTn6m6M0d+qFWTOCM/ej6gLZp+WXJeh2+BiO6T7NNWCc6M='
+
+token:
+  expiration_time: 86400000 # 60*60*24*1000 = 1일
+  secret: '{cipher}AQCJrngVFmlQvhljP6BkkkGEpXy/ulVaf7a4x72p4lMoLfvoUoPOWhfvuQItA0siKkaj9gpIsyi2ooWHCncWT37yRlzoWwBdtBgQnWaqyI4zb96TiY+69UT7IEFGO3MhrPZ1SY9UBEMEv+5Fc/LMQnanJ8Zx3IKd6hbPr4aW9vDt1IeJl48Ys29p8T9oTZjWAYTuoR+Fs7HFbW5/fWfjW5H7qHyJ3IR0IeYvfIS0NZ1rLNcSFqF+aMMoOO2M0c1/Lro9RmqWKVLqeJNTRI9voGd3rPRxIu7g/kesKdr+Kzjuy1pTnjqaUVUC8iJm6YwNv+AmFN7MxG4G4w03XjwrbN/sT93eaUxXtcS2G82mWuQS4007CdA+BdQzeO3cpF+BCLAykNARwa7K3Rx3jradi3sac0dlA4x/DzpYJBbIxARFp0nGv+cMmZerU+Px/ScbZROVa+F0Er9zAuMcXLKh98d0yf55frUMjZWnX2aq6vRgC/nMJaxbbL3/bD/AjJwpd91oTHJQkO5HPm7lRfV6nxPAgtPHoG8PWnQd0l4NbI1LfV0PGTUrrRFattBZyC+HYa8nsVVGGk6kSpYx9vLA0dfNh3jdwdbNH5SKxURtzYvUDqkmK59ttMvryLlUPc60sk4='
+
+gateway:
+  ip: 59.10.164.35
+
+order_service:
+  # url: http://127.0.0.1:8000/order-service/%s/orders
+  url: http://ORDER-SERVICE/order-service/%s/orders
