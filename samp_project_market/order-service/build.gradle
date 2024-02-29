@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.2.0'
+    id 'org.springframework.boot' version '3.2.2'
     id 'io.spring.dependency-management' version '1.1.4'
 }
 
@@ -23,7 +23,7 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "2023.0.0-RC1")
+    set('springCloudVersion', "2023.0.0")
 }
 
 dependencies {
@@ -43,6 +43,22 @@ dependencies {
 
     // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
     implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.3.2'
+
+    /* spring boot 3.0 이하에서 사용됌
+    // spring cloud sleuth 의존성 제거
+    // implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    // spring cloud zipkin 의존성 제거
+    // implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    */
+
+    // sleuth 및 zipkin (분산추적)
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+    implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+//    implementation 'io.github.openfeign:feign-micrometer'
+//    implementation 'io.micrometer:micrometer-observation'
+
+
 
 }
 

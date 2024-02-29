@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 @Configuration
 @EnableWebSecurity
 public class WebSecurity {
-    private static final String IP_ADDRESS = "59.10.164.35";
+    private static final String IP_ADDRESS = "122.199.232.133";
     private static final String SUBNET = "/32";
     private static final IpAddressMatcher IP_ADDRESS_MATCHER = new IpAddressMatcher(IP_ADDRESS + SUBNET);
     private static final String[] WHITE_LIST = {
