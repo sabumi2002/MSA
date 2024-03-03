@@ -43,6 +43,24 @@ spring:
 #          uri: lb://USER-SERVICE
 #          predicates:
 #            - Path=/user-service/**
+        # Actuator
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie  # GET으로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie  # GET으로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
+            - RewritePath=/order-service/(?<segment>.*), /$\{segment}  # url_path 재정의
+
         # 로그인
         - id: user-service
           uri: lb://USER-SERVICE
@@ -71,19 +89,12 @@ spring:
             - RemoveRequestHeader=Cookie  # GET으로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
             - AuthorizationHeaderFilter
-        # actuator
-        - id: user-service
-          uri: lb://USER-SERVICE
-          predicates:
-            - Path=/user-service/actuator/**
-            - Method=GET, POST
-          filters:
-            - RemoveRequestHeader=Cookie  # GET으로 들어온값은 매번 새로운 데이터처럼 인식하게 만들기 위해 requestHeader값 초기화
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}  # url_path 재정의
+        # Catalog-service
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog-service/**
+        # Order-service
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
@@ -93,9 +104,9 @@ spring:
 #            - AddResponseHeader=first-response, first-response-header2
 #            - CustomFilter
 
+
 management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httpexchanges, busrefresh
-
+        include: refresh, health, beans, httpexchanges, busrefresh, info, metrics, prometheus
